@@ -23,6 +23,32 @@ describe 'tweet shortener' do
     end
   end
 
+def dictionary
+  words = {
+    "hello" => "hi",
+    "to" => "2",
+    "two" => "2",
+    "too" => "2",
+    "for" => "4",
+    "four" => "4",
+    "be" => "b",
+    "you" => "u",
+    "at" => "@",
+    "and" => "&"
+  }
+end
+  
+def word_substituter(string)
+  string.split(" ").collect do |word|
+  if dictionary.keys.include?(word.downcase)
+    word = dictionary[word.downcase]
+  else
+    word
+  end
+  end.join(" ")
+end
+  
+
   # Question 2
   describe '#bulk_tweet_shortener' do  
     it 'shortens each tweet and prints the results' do
@@ -34,6 +60,12 @@ describe 'tweet shortener' do
       bulk_tweet_shortener(tweets)
     end
   end
+  
+def bulk_tweet_shortener(array)
+  array.collect do |string|
+   puts word_substituter(string)
+  end
+end
 
   # Question 3
   describe '#selective_tweet_shortener' do
@@ -52,6 +84,14 @@ describe 'tweet shortener' do
     end
 
   end
+  
+  def selective_tweet_shortener(tweet)
+    if tweet.length > 140
+      word_substituter(tweet)
+    else
+      tweet
+    end
+  end
 
   # Question 4
   describe '#shortened_tweet_truncator' do    
@@ -64,4 +104,13 @@ describe 'tweet shortener' do
     end
   end
 
+end
+
+def shortened_tweet_truncator(tweet)
+  word_substituter(tweet)
+  if tweet.length > 140
+    "#{tweet[0..136]}..."
+  else
+    tweet
+  end
 end
